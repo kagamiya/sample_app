@@ -44,6 +44,9 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'sqlite3', '1.3.13'
   gem 'byebug', '9.0.6', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 3.6'
+  gem 'spring-commands-rspec'
+  gem "factory_bot_rails"
   # Adds support for Capybara system testing and selenium driver
   # gem 'capybara', '~> 2.13'
   # gem 'selenium-webdriver'

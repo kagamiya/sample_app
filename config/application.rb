@@ -16,5 +16,15 @@ module SampleApp
     # -- all .rb files in that directory are automatically loaded.
     # 認証トークンをremoteフォームに埋め込む
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    config.generators do |g|
+      g.test_framework :rspec,            
+        controller_specs: true,
+        helper_specs: true,
+        model_specs: true,
+        request_spec: true,
+        routing_specs: false,
+        view_specs: false
+    end
   end
 end
