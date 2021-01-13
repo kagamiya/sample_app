@@ -18,8 +18,9 @@ module SampleApp
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
     config.generators do |g|
-      g.test_framework :rspec,            
+      g.test_framework :rspec,
         controller_specs: true,
+        fixtures: true,
         helper_specs: true,
         model_specs: true,
         request_spec: true,
