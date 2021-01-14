@@ -80,4 +80,52 @@ RSpec.describe User, type: :model do
       expect(@user.authenticated?('')).to be_falsey
     end
   end
+
+  describe 'associated microposts' do
+    it 'should be destroyed' do
+      @user.microposts.create!(content: "Lorem ipsum")
+      expect{ @user.destroy }.to change{ Micropost.count }.by(-1)
+    end
+  end
+
+  describe 'follow / unfollow' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @user1.follow(@user2)
+    end
+    it 'should follow a user' do
+      expect(@user1.following?(@user2)).to be_truthy
+      expect(@user2.followers).to include(@user1)
+    end
+    it 'should unfollow a user' do
+      @user1.unfollow(@user2)
+      expect(@user1.following?(@user2)).not_to be_truthy
+      expect(@user2.followers).not_to include(@user1)
+    end
+  end
+
+  describe 'feed' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @user1.follow(@user2)
+    end
+    it 'should have my own posts' do
+      @user1.microposts.each do |post_self|
+        expect(@user1.feed).to include(post_self)
+      end
+    end
+    it 'should have the following users posts' do
+      @user2.microposts.each do |post_following|
+        expect(@user1.feed).to include(post_following)
+      end
+    end
+    it 'should not have unfollowing users posts' do
+      @user3.microposts.each do |post_unfollowed|
+        expect(@user1.feed).not_to include(post_unfollowed)
+      end
+    end
+  end
 end
